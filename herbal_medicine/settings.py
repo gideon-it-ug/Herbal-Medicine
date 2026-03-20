@@ -40,7 +40,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'repository',
-]
+    'transcription'
+    
+    ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
