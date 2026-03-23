@@ -3,7 +3,7 @@ from repository.models import Plant
 
 class Transcription(models.Model):
     plant = models.ForeignKey(Plant, on_delete=models.CASCADE, null=True, blank= True)
-    audio_file = models.FileField(upload_to='transcriptions/')
+    audio_file = models.FileField(upload_to='transcriptions/', blank=True, null=True)
     transcribed_text = models.TextField(blank=True)
     language = models.BooleanField(default=False)
     is_processed = models.DateTimeField(auto_now_add=True)

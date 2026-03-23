@@ -21,4 +21,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include('repository.urls')),
     path('api/', include('transcription.urls')),
+    path('api/', include('nlp_processing.urls')),
 ]
