@@ -45,11 +45,41 @@ def extract_plant_data(text):
 
 
 class ExtractedDataViewSet(viewsets.ModelViewSet):
+
     queryset = ExtractedData.objects.all()
 
     def get_serializer_class(self):
         from .serializers import ExtractedDataSerializer
         return ExtractedDataSerializer
+    
+    @action(detail=False, methods=['post'])
+    def chat(self, request):
+        message = request.data.get('message', '').lower()
+
+    
+        from repository.models import Plant
+        plants = Plant.objects.all()
+    
+        matched = []
+        for plant in plants:
+            fields = [
+                plant.ailments_treated or '',
+                plant.name or '',
+                plant.preparation_method or '',
+        ]
+            if any(message in field.lower() for field in fields):
+                matched.append(plant)
+    
+        if matched:
+            response = f"I found {len(matched)} plant(s) that may help:\n\n"
+            for plant in matched:
+                response += f"🌿 {plant.name} — treats {plant.ailments_treated}. "
+                response += f"Preparation: {plant.preparation_method}. "
+                response += f"Dosage: {plant.dosage}.\n\n"
+        else:
+            response = "I couldn't find a plant matching your query. Try searching for a specific ailment like 'malaria' or 'fever'."
+    
+        return Response({'reply': response})
 
     @action(detail=False, methods=['post'])
     def process(self, request):

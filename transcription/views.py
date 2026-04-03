@@ -2,6 +2,9 @@ from rest_framework import viewsets, status
 from rest_framework.response import Response
 from rest_framework.decorators import action
 from .models import Transcription
+from rest_framework.permissions import IsAuthenticatedOrReadOnly
+
+permission_classes = [IsAuthenticatedOrReadOnly]
 
 class TranscriptionViewSet(viewsets.ModelViewSet):
     queryset = Transcription.objects.all()
