@@ -8,7 +8,8 @@ permission_classes = [IsAuthenticatedOrReadOnly]
 
 class TranscriptionViewSet(viewsets.ModelViewSet):
     queryset = Transcription.objects.all()
-
+    permission_classes = [IsAuthenticatedOrReadOnly]
+    
     def get_serializer_class(self):
         from .serializers import TranscriptionSerializer
         return TranscriptionSerializer

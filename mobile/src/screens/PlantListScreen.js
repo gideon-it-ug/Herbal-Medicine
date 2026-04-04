@@ -1,53 +1,40 @@
-import { View, Text, FlatList, TouchableOpacity } from 'react-native';
-import { useEffect, useState } from 'react';
-import api from '../services/api';
+import React, { useEffect, useState } from 'react';
+import { View, Text, FlatList, TouchableOpacity, StyleSheet, ActivityIndicator, SafeAreaView } from 'react-native';
+import { getPlants } from '../services/api';
 
-export default function PlantListScreen({ navigation, route }) {
+export default function PlantListScreen({ navigation }) {
   const [plants, setPlants] = useState([]);
-
-  // Optional: get search query from Home
-  const query = route?.params?.query;
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    let url = '/plants';
-
-    if (query) {
-      url = `/plants?search=${query}`;
-    }
-
-    api.get(url)
-      .then(res => setPlants(res.data))
-      .catch(err => console.log(err));
+    getPlants().then(res => { setPlants(res.data); setLoading(false); });
   }, []);
 
+  if (loading) return <View style={styles.center}><ActivityIndicator size='large' color='#1B5E20' /></View>;
+
   return (
-    <View style={{ flex: 1, padding: 20 }}>
-
-      <Text style={{ fontSize: 20, marginBottom: 10 }}>
-        {query ? `Results for "${query}"` : 'All Plants'}
-      </Text>
-
+    <SafeAreaView style={styles.container}>
       <FlatList
         data={plants}
-        keyExtractor={(item) => item.id.toString()}
+        keyExtractor={item => item.id.toString()}
+        contentContainerStyle={{ padding: 16 }}
         renderItem={({ item }) => (
-          <TouchableOpacity
-            onPress={() => navigation.navigate('PlantDetail', { id: item.id })}
-            style={{
-              padding: 15,
-              borderBottomWidth: 1,
-              borderColor: '#ccc'
-            }}
-          >
-            <Text style={{ fontSize: 16, fontWeight: 'bold' }}>
-              {item.name}
-            </Text>
-
-            <Text>{item.ailments_treated}</Text>
+          <TouchableOpacity style={styles.card} onPress={() => navigation.navigate('PlantDetail', { id: item.id })}>
+            <Text style={styles.name}>{item.name}</Text>
+            <Text style={styles.lang}>{item.local_language}  📍 {item.geographic_distribution}</Text>
+            <Text style={styles.ailment}>Treats: {item.ailments_treated}</Text>
           </TouchableOpacity>
         )}
       />
-
-    </View>
+    </SafeAreaView>
   );
 }
+
+const styles = StyleSheet.create({
+  container: { flex: 1, backgroundColor: '#F0F4F0' },
+  center: { flex: 1, justifyContent: 'center', alignItems: 'center' },
+  card: { backgroundColor: 'white', borderRadius: 10, padding: 16, marginBottom: 12, elevation: 2 },
+  name: { fontSize: 18, fontWeight: 'bold', color: '#1B5E20', marginBottom: 4 },
+  lang: { fontSize: 12, color: '#777', marginBottom: 6 },
+  ailment: { fontSize: 14, color: '#444' },
+});

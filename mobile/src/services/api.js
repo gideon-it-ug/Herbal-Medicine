@@ -1,7 +1,15 @@
 import axios from 'axios';
 
-const api = axios.create({
-  baseURL: 'http://192.168.137.181:8000', // CHANGE THIS
+const API = axios.create({
+  baseURL: 'http://192.168.1.7:8000/api/',  // Use your PC's IP if testing on real phone
 });
 
-export default api;
+export const getPlants = () => API.get('plants/');
+export const getPlant = (id) => API.get(`plants/${id}/`);
+export const searchPlants = (q) => API.get(`plants/?search=${q}`);
+export const login = (username, password) =>
+  axios.post('http://10.0.2.2:8000/api/token/', { username, password });
+export const chatbot = (message) =>
+  API.post('nlp/chat/', { message });
+
+export default API;
