@@ -4,7 +4,7 @@ import '../App.css';
 
 function Chatbot() {
   const [messages, setMessages] = useState([
-    { sender: 'bot', text: '👋 Hello! I am the Herbal Medicine Assistant. Ask me about any ailment or plant — for example: "what treats malaria?" or "tell me about Kigajji".' }
+    { sender: 'bot', text: '👋 Osiibire! I am your Herbal Medicine Assistant for Bukedi Sub-Region. Ask me about any medicinal plant or ailment — for example: "what treats malaria?" or "tell me about Kigajji". The more plants are added to the database, the smarter I become!' }
   ]);
   const [input, setInput] = useState('');
   const [loading, setLoading] = useState(false);

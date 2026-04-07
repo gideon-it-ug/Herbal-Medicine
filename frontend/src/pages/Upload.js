@@ -88,13 +88,14 @@ function Upload() {
 
   return (
     <div>
-      <nav className='navbar'>
+      <nav className="navbar">
         <h1>🌿 Herbal Medicine Repository</h1>
-        <div>
-          <Link to='/' style={{ color: '#A5D6A7', textDecoration: 'none', marginLeft: '20px' }}>Home</Link>
-          <Link to='/plants' style={{ color: '#A5D6A7', textDecoration: 'none', marginLeft: '20px' }}>Plants</Link>
-        </div>
-      </nav>
+      <div>
+        <Link to="/" style={{ color: '#A5D6A7', textDecoration: 'none', marginLeft: '20px' }}>Home</Link>
+        <Link to="/plants" style={{ color: '#A5D6A7', textDecoration: 'none', marginLeft: '20px' }}>Plants</Link>
+        <span onClick={() => { localStorage.removeItem('access'); localStorage.removeItem('refresh'); window.location.href='/'; }} style={{ color: '#FF8F00', cursor: 'pointer', marginLeft: '20px' }}>Logout</span>
+      </div>
+</nav>
       <div className='container'>
         <h2 className='page-title'>🎤 Upload Audio Recording</h2>
         <div className='card'>

@@ -1,14 +1,24 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import '../App.css';
 
 function Home() {
   const [query, setQuery] = useState('');
+  const [stats, setStats] = useState({ plants: 0, transcriptions: 0 });
   const navigate = useNavigate();
   const isLoggedIn = !!localStorage.getItem('access');
 
   const handleSearch = () => { if (query.trim()) navigate(`/search?q=${query}`); };
   const handleLogout = () => { localStorage.removeItem('access'); localStorage.removeItem('refresh'); navigate('/'); };
+
+  useEffect(() => {
+    fetch('http://127.0.0.1:8000/api/plants/')
+      .then(res => res.json())
+      .then(data => setStats(prev => ({ ...prev, plants: data.length })));
+    fetch('http://127.0.0.1:8000/api/transcriptions/')
+      .then(res => res.json())
+      .then(data => setStats(prev => ({ ...prev, transcriptions: data.length })));
+  }, []);
 
   return (
     <div>
@@ -35,6 +45,26 @@ function Home() {
           <button onClick={handleSearch}>Search</button>
         </div>
       </div>
+      <div style={{ background: '#1a3a2a', padding: '24px 20px' }}>
+  <div style={{ maxWidth: '1000px', margin: '0 auto', display: 'grid', gridTemplateColumns: '1fr 1fr 1fr 1fr', gap: '16px', textAlign: 'center' }}>
+    <div>
+      <div style={{ fontSize: '36px', fontWeight: '800', color: '#F5E6C8' }}>{stats.plants}</div>
+      <div style={{ fontSize: '13px', color: '#A8D5B5', marginTop: '4px' }}>Plants Documented</div>
+    </div>
+    <div>
+      <div style={{ fontSize: '36px', fontWeight: '800', color: '#F5E6C8' }}>5</div>
+      <div style={{ fontSize: '13px', color: '#A8D5B5', marginTop: '4px' }}>Districts Covered</div>
+    </div>
+    <div>
+      <div style={{ fontSize: '36px', fontWeight: '800', color: '#F5E6C8' }}>4</div>
+      <div style={{ fontSize: '13px', color: '#A8D5B5', marginTop: '4px' }}>Local Languages</div>
+    </div>
+    <div>
+      <div style={{ fontSize: '36px', fontWeight: '800', color: '#F5E6C8' }}>{stats.transcriptions}</div>
+      <div style={{ fontSize: '13px', color: '#A8D5B5', marginTop: '4px' }}>Audio Recordings</div>
+    </div>
+  </div>
+</div>
       <div className='container'>
         <h2 className='page-title'>Quick Access</h2>
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '16px' }}>

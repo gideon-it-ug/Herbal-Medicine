@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-+p34-o4d=@lsdqbw^d0bn)equ#dsq4_7zqysrk*(lbyu@5_b82
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -49,7 +49,6 @@ MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
-    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -130,11 +129,6 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/6.0/howto/static-files/
 
 STATIC_URL = 'static/'
-REST_FRAMEWORK = {
-  'DEFAULT_AUTHENTICATION_CLASSES': [
-    'rest_framework_simplejwt.authentication.JWTAuthentication',
-  ]
-}
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [

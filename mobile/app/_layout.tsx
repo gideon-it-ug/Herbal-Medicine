@@ -1,24 +1,13 @@
-import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
 import { Stack } from 'expo-router';
-import { StatusBar } from 'expo-status-bar';
-import 'react-native-reanimated';
 
-import { useColorScheme } from '@/hooks/use-color-scheme';
-
-export const unstable_settings = {
-  anchor: '(tabs)',
-};
-
-export default function RootLayout() {
-  const colorScheme = useColorScheme();
-
+export default function Layout() {
   return (
-    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <Stack>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="modal" options={{ presentation: 'modal', title: 'Modal' }} />
-      </Stack>
-      <StatusBar style="auto" />
-    </ThemeProvider>
+    <Stack>
+      <Stack.Screen name="index" options={{ title: '🌿 Herbal Medicine' }} />
+      <Stack.Screen name="plants" options={{ title: 'All Plants' }} />
+      <Stack.Screen name="plant/[id]" options={{ title: 'Plant Detail' }} />
+      <Stack.Screen name="search" options={{ title: 'Search Results' }} />
+      <Stack.Screen name="chatbot" options={{ title: 'Chatbot' }} />
+    </Stack>
   );
 }
