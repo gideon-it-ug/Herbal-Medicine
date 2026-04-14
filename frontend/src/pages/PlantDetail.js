@@ -26,10 +26,19 @@ function PlantDetail() {
           {plant.scientific_name && <span className="badge">🔬 {plant.scientific_name}</span>}
           {plant.local_language && <span className="badge">🗣️ {plant.local_language}</span>}
           {plant.geographic_distribution && <span className="badge">📍 {plant.geographic_distribution}</span>}
+
+          {plant.image && (
+            <img
+              src={`http://127.0.0.1:8000/media/${plant.image.name || plant.image}`}
+              alt={plant.name}
+              style={{ width: '100%', maxHeight: '300px', objectFit: 'cover', borderRadius: '8px', marginTop: '16px' }}
+            />
+          )}
+
           <hr style={{ margin: '20px 0', borderColor: '#e0e0e0' }} />
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
             <div className="detail-section">
-              <h4>Ailments Treated</h4>
+              <h4>Disease Treated</h4>
               <p>{plant.ailments_treated || 'Not specified'}</p>
             </div>
             <div className="detail-section">

@@ -6,5 +6,5 @@ filter_backends = [SearchFilter]
 search_fields = ['name', 'ailments_treated', 'local_language', 'scientific_name']
 
 class PlantViewSet(viewsets.ModelViewSet):
-    queryset = Plant.objects.all()
+    queryset = Plant.objects.all().order_by('name')
     serializer_class = PlantSerializer
