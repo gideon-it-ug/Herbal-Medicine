@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { chatWithAssistant } from '../services/api';
 import '../App.css';
 
 function Chatbot() {
@@ -17,12 +18,7 @@ function Chatbot() {
     setLoading(true);
 
     try {
-      const response = await fetch('http://127.0.0.1:8000/api/nlp/chat/', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ message: input })
-      });
-      const data = await response.json();
+      const data = await chatWithAssistant(input);
       setMessages(prev => [...prev, { sender: 'bot', text: data.reply }]);
     } catch {
       setMessages(prev => [...prev, { sender: 'bot', text: 'Sorry, I could not connect to the server.' }]);

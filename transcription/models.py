@@ -5,8 +5,9 @@ class Transcription(models.Model):
     plant = models.ForeignKey(Plant, on_delete=models.CASCADE, null=True, blank= True)
     audio_file = models.FileField(upload_to='transcriptions/', blank=True, null=True)
     transcribed_text = models.TextField(blank=True)
-    language = models.BooleanField(default=False)
-    is_processed = models.DateTimeField(auto_now_add=True)
+    language = models.CharField(max_length=100, blank=True)
+    is_processed = models.BooleanField(default=False)
+    processed_at = models.DateTimeField(blank=True, null=True)
 
     def __str__(self):
         return f"Transcription {self.id} - {self.language}"

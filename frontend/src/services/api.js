@@ -1,4 +1,21 @@
-const API_URL = "http://127.0.0.1:8000/api/";
+export const API_ORIGIN = (process.env.REACT_APP_API_ORIGIN || "http://127.0.0.1:8000").replace(/\/$/, "");
+export const API_URL = `${API_ORIGIN}/api/`;
+export const MEDIA_URL = `${API_ORIGIN}/media/`;
+
+export const buildMediaUrl = (path) => {
+  if (!path) return "";
+  if (/^https?:\/\//i.test(path)) return path;
+  if (path.startsWith("/")) return `${API_ORIGIN}${path}`;
+  return `${MEDIA_URL}${path.replace(/^media\//, "").replace(/^\//, "")}`;
+};
+
+const parseJsonResponse = async (response) => {
+  const data = await response.json();
+  if (!response.ok) {
+    throw new Error(data.detail || data.message || "Request failed");
+  }
+  return data;
+};
 
 // GET with token
 export const fetchWithAuth = async (endpoint) => {
@@ -6,7 +23,7 @@ export const fetchWithAuth = async (endpoint) => {
   const response = await fetch(API_URL + endpoint, {
     headers: { "Authorization": `Bearer ${token}` },
   });
-  return response.json();
+  return parseJsonResponse(response);
 };
 
 // POST with token
@@ -20,13 +37,26 @@ export const postWithAuth = async (endpoint, data) => {
     },
     body: JSON.stringify(data),
   });
-  return response.json();
+  return parseJsonResponse(response);
 };
 
 // Plants
 export const getPlants = () => fetch(API_URL + "plants/").then(res => res.json());
 export const getPlant = (id) => fetch(API_URL + `plants/${id}/`).then(res => res.json());
 export const searchPlants = (query) => fetch(API_URL + `plants/?search=${query}`).then(res => res.json());
+export const getTranscriptions = () => fetch(API_URL + "transcriptions/").then(res => res.json());
+export const loginUser = (username, password) =>
+  fetch(API_URL + "token/", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ username, password }),
+  }).then(parseJsonResponse);
+export const chatWithAssistant = (message) =>
+  fetch(API_URL + "nlp/chat/", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ message }),
+  }).then(parseJsonResponse);
 
 // Transcription
 export const uploadTranscription = async (formData) => {
@@ -36,7 +66,25 @@ export const uploadTranscription = async (formData) => {
     headers: { "Authorization": `Bearer ${token}` },
     body: formData,
   });
-  return response.json();
+  return parseJsonResponse(response);
+};
+export const transcribeRecording = async (id, token) => {
+  const response = await fetch(API_URL + `transcriptions/${id}/transcribe/`, {
+    method: "POST",
+    headers: { Authorization: `Bearer ${token}` },
+  });
+  return parseJsonResponse(response);
+};
+export const createPlant = async (token, payload) => {
+  const response = await fetch(API_URL + "plants/", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(payload),
+  });
+  return parseJsonResponse(response);
 };
 
 // NLP

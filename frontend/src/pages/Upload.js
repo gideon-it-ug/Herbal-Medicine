@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { createPlant, processNLP, transcribeRecording, uploadTranscription } from '../services/api';
 import '../App.css';
 
 function Upload() {
@@ -22,12 +23,7 @@ function Upload() {
     formData.append('audio_file', file);
     formData.append('language', language);
     try {
-      const res = await fetch('http://127.0.0.1:8000/api/transcriptions/', {
-        method: 'POST',
-        headers: { 'Authorization': `Bearer ${token}` },
-        body: formData
-      });
-      const data = await res.json();
+      const data = await uploadTranscription(formData);
       setTranscriptionId(data.id);
       setStatus('File uploaded! Click Transcribe to convert audio to text.');
     } catch { setStatus('Upload failed. Make sure you are logged in.'); }
@@ -38,11 +34,7 @@ function Upload() {
     setLoading(true);
     setStatus('Transcribing audio with Whisper AI... this may take a few minutes.');
     try {
-      const res = await fetch(`http://127.0.0.1:8000/api/transcriptions/${transcriptionId}/transcribe/`, {
-        method: 'POST',
-        headers: { 'Authorization': `Bearer ${token}` }
-      });
-      const data = await res.json();
+      const data = await transcribeRecording(transcriptionId, token);
       setTranscribedText(data.transcribed_text);
       setStatus('Transcription complete! Click Extract Data to identify plant information.');
     } catch { setStatus('Transcription failed.'); }
@@ -53,12 +45,7 @@ function Upload() {
     setLoading(true);
     setStatus('Extracting plant information with NLP...');
     try {
-      const res = await fetch('http://127.0.0.1:8000/api/nlp/process/', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
-        body: JSON.stringify({ transcription_id: transcriptionId })
-      });
-      const data = await res.json();
+      const data = await processNLP(transcriptionId);
       setNlpResult(data);
       setStatus('Done! Review the extracted data below and save to the plant database.');
     } catch { setStatus('NLP extraction failed.'); }
@@ -69,16 +56,12 @@ function Upload() {
     if (!nlpResult) return;
     setLoading(true);
     try {
-      await fetch('http://127.0.0.1:8000/api/plants/', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
-        body: JSON.stringify({
-          name: plantName || nlpResult.plant_name,
-          ailments_treated: nlpResult.ailments,
-          preparation_method: nlpResult.preparation,
-          dosage: nlpResult.dosage,
-          local_language: language,
-        })
+      await createPlant(token, {
+        name: plantName || nlpResult.plant_name,
+        ailments_treated: nlpResult.ailments,
+        preparation_method: nlpResult.preparation,
+        dosage: nlpResult.dosage,
+        local_language: language,
       });
       setStatus('Plant saved to database successfully!');
       setTimeout(() => navigate('/plants'), 2000);

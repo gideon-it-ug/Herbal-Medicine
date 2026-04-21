@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
+import { loginUser } from '../services/api';
 import '../App.css';
 
 function Login() {
@@ -13,12 +14,7 @@ function Login() {
     setLoading(true);
     setError('');
     try {
-      const res = await fetch('http://127.0.0.1:8000/api/token/', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ username, password })
-      });
-      const data = await res.json();
+      const data = await loginUser(username, password);
       if (data.access) {
         localStorage.setItem('access', data.access);
         localStorage.setItem('refresh', data.refresh);

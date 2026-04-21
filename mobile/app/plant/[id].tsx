@@ -1,15 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, ScrollView, StyleSheet, SafeAreaView, ActivityIndicator } from 'react-native';
 import { useLocalSearchParams } from 'expo-router';
-import axios from 'axios';
-
-const API = 'http://192.168.1.10:8000/api';
+import { getPlant } from '../../src/services/api';
 
 export default function PlantDetailScreen() {
   const { id } = useLocalSearchParams();
   const [plant, setPlant] = useState(null);
 
-  useEffect(() => { axios.get(`${API}/plants/${id}/`).then(res => setPlant(res.data)); }, [id]);
+  useEffect(() => { getPlant(id).then(res => setPlant(res.data)); }, [id]);
 
   if (!plant) return <View style={styles.center}><ActivityIndicator size="large" color="#1a3a2a" /></View>;
 

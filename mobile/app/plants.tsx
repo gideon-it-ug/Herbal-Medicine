@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, FlatList, TouchableOpacity, StyleSheet, SafeAreaView, ActivityIndicator } from 'react-native';
 import { useRouter } from 'expo-router';
-import axios from 'axios';
-
-const API = 'http://192.168.1.10:8000/api';
+import { getPlants } from '../src/services/api';
 
 export default function PlantListScreen() {
   const [plants, setPlants] = useState([]);
@@ -11,7 +9,7 @@ export default function PlantListScreen() {
   const router = useRouter();
 
   useEffect(() => {
-    axios.get(`${API}/plants/`).then(res => { setPlants(res.data); setLoading(false); });
+    getPlants().then(res => { setPlants(res.data); setLoading(false); });
   }, []);
 
   if (loading) return <View style={styles.center}><ActivityIndicator size="large" color="#1a3a2a" /></View>;

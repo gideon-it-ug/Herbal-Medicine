@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { getPlant } from '../services/api';
+import { buildMediaUrl, getPlant } from '../services/api';
 import '../App.css';
 
 function PlantDetail() {
@@ -29,7 +29,7 @@ function PlantDetail() {
 
           {plant.image && (
             <img
-              src={`http://127.0.0.1:8000/media/${plant.image.name || plant.image}`}
+              src={buildMediaUrl(plant.image)}
               alt={plant.name}
               style={{ width: '100%', maxHeight: '300px', objectFit: 'cover', borderRadius: '8px', marginTop: '16px' }}
             />

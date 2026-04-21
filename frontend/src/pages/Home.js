@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
+import { getPlants, getTranscriptions } from '../services/api';
 import '../App.css';
 
 function Home() {
@@ -12,12 +13,8 @@ function Home() {
   const handleLogout = () => { localStorage.removeItem('access'); localStorage.removeItem('refresh'); navigate('/'); };
 
   useEffect(() => {
-    fetch('http://127.0.0.1:8000/api/plants/')
-      .then(res => res.json())
-      .then(data => setStats(prev => ({ ...prev, plants: data.length })));
-    fetch('http://127.0.0.1:8000/api/transcriptions/')
-      .then(res => res.json())
-      .then(data => setStats(prev => ({ ...prev, transcriptions: data.length })));
+    getPlants().then(data => setStats(prev => ({ ...prev, plants: data.length })));
+    getTranscriptions().then(data => setStats(prev => ({ ...prev, transcriptions: data.length })));
   }, []);
 
   return (

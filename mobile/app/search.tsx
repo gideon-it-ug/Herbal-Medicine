@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, FlatList, TouchableOpacity, StyleSheet, SafeAreaView, ActivityIndicator } from 'react-native';
 import { useLocalSearchParams, useRouter } from 'expo-router';
-import axios from 'axios';
-
-const API = 'http://192.168.1.10:8000/api';
+import { searchPlants } from '../src/services/api';
 
 export default function SearchScreen() {
   const { query } = useLocalSearchParams();
@@ -12,14 +10,14 @@ export default function SearchScreen() {
   const router = useRouter();
 
   useEffect(() => {
-    axios.get(`${API}/plants/?search=${query}`).then(res => { setResults(res.data); setLoading(false); });
+    searchPlants(query).then(res => { setResults(res.data); setLoading(false); });
   }, [query]);
 
   if (loading) return <View style={styles.center}><ActivityIndicator size="large" color="#1a3a2a" /></View>;
 
   return (
     <SafeAreaView style={styles.container}>
-      <Text style={styles.title}>Results for "{query}"</Text>
+      <Text style={styles.title}>{`Results for "${query}"`}</Text>
       {results.length === 0 && <Text style={styles.empty}>No plants found. Try another search.</Text>}
       <FlatList
         data={results}

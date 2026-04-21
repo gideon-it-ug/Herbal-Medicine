@@ -1,6 +1,8 @@
 from rest_framework import viewsets
 from rest_framework.decorators import action
+from rest_framework.permissions import AllowAny, IsAuthenticatedOrReadOnly
 from rest_framework.response import Response
+
 from .models import ExtractedData
 from transcription.models import Transcription
 import re
@@ -51,6 +53,11 @@ class ExtractedDataViewSet(viewsets.ModelViewSet):
     def get_serializer_class(self):
         from .serializers import ExtractedDataSerializer
         return ExtractedDataSerializer
+
+    def get_permissions(self):
+        if self.action == 'chat':
+            return [AllowAny()]
+        return [IsAuthenticatedOrReadOnly()]
     
     @action(detail=False, methods=['post'])
     def chat(self, request):

@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, SafeAreaView, ScrollView } from 'react-native';
 import { useRouter } from 'expo-router';
-import axios from 'axios';
-
-const API = 'http://192.168.1.10:8000/api';
+import { getPlants, getTranscriptions } from '../src/services/api';
 
 export default function HomeScreen() {
   const [query, setQuery] = useState('');
@@ -11,8 +9,8 @@ export default function HomeScreen() {
   const router = useRouter();
 
   useEffect(() => {
-    axios.get(`${API}/plants/`).then(res => setStats(prev => ({ ...prev, plants: res.data.length })));
-    axios.get(`${API}/transcriptions/`).then(res => setStats(prev => ({ ...prev, transcriptions: res.data.length })));
+    getPlants().then(res => setStats(prev => ({ ...prev, plants: res.data.length })));
+    getTranscriptions().then(res => setStats(prev => ({ ...prev, transcriptions: res.data.length })));
   }, []);
 
   return (
@@ -73,7 +71,7 @@ export default function HomeScreen() {
 
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: '#FAFAF8' },
-  hero: { background: '#1a3a2a', backgroundColor: '#1a3a2a', padding: 28, paddingTop: 40 },
+  hero: { backgroundColor: '#1a3a2a', padding: 28, paddingTop: 40 },
   heroTitle: { color: '#F5E6C8', fontSize: 22, fontWeight: '800', marginBottom: 6 },
   heroSub: { color: '#A8D5B5', fontSize: 13, marginBottom: 20 },
   searchRow: { flexDirection: 'row', gap: 8 },

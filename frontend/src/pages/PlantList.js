@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { getPlants } from '../services/api';
+import { buildMediaUrl, getPlants } from '../services/api';
 import '../App.css';
 
 function PlantList() {
@@ -60,7 +60,7 @@ function PlantList() {
           <div className="card" key={plant.id} style={{ display: 'flex', gap: '16px', alignItems: 'flex-start' }}>
   {plant.image && (
     <img
-      src={plant.image}
+      src={buildMediaUrl(plant.image)}
       alt={plant.name}
       style={{ width: '100px', height: '100px', objectFit: 'cover', borderRadius: '8px', flexShrink: 0 }}
     />

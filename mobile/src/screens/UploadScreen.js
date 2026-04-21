@@ -1,12 +1,22 @@
 import { View, Text, TextInput, TouchableOpacity, Alert } from 'react-native';
 import { useState } from 'react';
-import * as DocumentPicker from 'expo-document-picker';
+import { API_BASE_URL } from '../services/api';
 
 export default function UploadScreen() {
   const [file, setFile] = useState(null);
   const [language, setLanguage] = useState('');
 
   const pickFile = async () => {
+    let DocumentPicker;
+    const pickerModule = 'expo-document-picker';
+
+    try {
+      DocumentPicker = await import(pickerModule);
+    } catch {
+      Alert.alert('Missing dependency', 'Install expo-document-picker to enable file uploads on mobile.');
+      return;
+    }
+
     const result = await DocumentPicker.getDocumentAsync({
       type: 'audio/*'
     });
@@ -33,11 +43,8 @@ export default function UploadScreen() {
     formData.append('language', language);
 
     try {
-      const response = await fetch('http://192.168.X.X:8000/api/upload/', {
+      const response = await fetch(`${API_BASE_URL}/transcriptions/`, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
         body: formData,
       });
 

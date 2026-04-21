@@ -15,7 +15,7 @@ export default function SearchResultsScreen({ route, navigation }) {
 
   return (
     <SafeAreaView style={styles.container}>
-      <Text style={styles.title}>Results for "{query}"</Text>
+      <Text style={styles.title}>{`Results for "${query}"`}</Text>
       {results.length === 0 && <Text style={styles.empty}>No plants found. Try another search.</Text>}
       <FlatList
         data={results}

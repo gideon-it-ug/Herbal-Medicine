@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, FlatList, StyleSheet, SafeAreaView, KeyboardAvoidingView, Platform } from 'react-native';
-import axios from 'axios';
-
-const API = 'http://192.168.1.10:8000/api';
+import { chatbot } from '../src/services/api';
 
 export default function ChatbotScreen() {
   const [messages, setMessages] = useState([
@@ -18,7 +16,7 @@ export default function ChatbotScreen() {
     setInput('');
     setLoading(true);
     try {
-      const res = await axios.post(`${API}/nlp/chat/`, { message: input });
+      const res = await chatbot(input);
       setMessages(prev => [...prev, { id: Date.now().toString() + '1', sender: 'bot', text: res.data.reply }]);
     } catch {
       setMessages(prev => [...prev, { id: Date.now().toString() + '1', sender: 'bot', text: 'Could not connect to server.' }]);
