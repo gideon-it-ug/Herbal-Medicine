@@ -36,7 +36,7 @@ function Login() {
       </nav>
       <div className='container' style={{ maxWidth: '400px', marginTop: '80px' }}>
         <div className='card'>
-          <h2 style={{ color: '#1B5E20', marginBottom: '20px' }}>Researcher Login</h2>
+          <h2 style={{ color: '#1B5E20', marginBottom: '20px' }}>Contributor Login</h2>
           {error && <p style={{ color: 'red', marginBottom: '10px' }}>{error}</p>}
           <div className='form-group'>
             <label>Username</label>
@@ -49,6 +49,9 @@ function Login() {
           <button className='btn' onClick={handleLogin} disabled={loading} style={{ width: '100%' }}>
             {loading ? 'Logging in...' : 'Login'}
           </button>
+          <p style={{ marginTop: '16px', textAlign: 'center' }}>
+            <Link to='/register' style={{ color: '#1B5E20' }}>Create a researcher account</Link>
+          </p>
         </div>
       </div>
     </div>

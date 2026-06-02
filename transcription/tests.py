@@ -66,7 +66,7 @@ class EndToEndApiFlowTests(APITestCase):
             "/api/plants/",
             {
                 "name": nlp_response.data["plant_name"] or "Neem",
-                "ailments_treated": nlp_response.data["ailments"] or "Malaria",
+                "disease_cured": nlp_response.data["ailments"] or "Malaria",
                 "preparation_method": nlp_response.data["preparation"] or "Boil leaves",
                 "dosage": nlp_response.data["dosage"] or "Twice daily",
                 "local_language": "Lugwere",

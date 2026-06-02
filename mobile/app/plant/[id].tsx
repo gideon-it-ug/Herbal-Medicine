@@ -27,7 +27,7 @@ export default function PlantDetailScreen() {
           {plant.local_language && <Text style={styles.badge}>{plant.local_language}</Text>}
         </View>
         <View style={styles.body}>
-          <Field label="AILMENTS TREATED" value={plant.ailments_treated} />
+          <Field label="DISEASE CURED" value={plant.disease_cured} />
           <Field label="PREPARATION METHOD" value={plant.preparation_method} />
           <Field label="DOSAGE" value={plant.dosage} />
           <Field label="SIDE EFFECTS" value={plant.side_effects} />

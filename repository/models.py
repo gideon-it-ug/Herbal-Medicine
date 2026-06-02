@@ -4,7 +4,7 @@ class Plant(models.Model):
     scientific_name= models.CharField(max_length=200, blank=True)
     local_language= models.CharField(max_length=100, blank=True)
     geographic_distribution = models.TextField(blank = True)
-    ailments_treated = models.TextField()
+    disease_cured = models.TextField()
     preparation_method = models.TextField()
     dosage=models.TextField()
     side_effects = models.TextField(blank=True)

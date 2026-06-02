@@ -19,7 +19,7 @@ class NlpApiTests(APITestCase):
         )
         Plant.objects.create(
             name="Neem",
-            ailments_treated="Malaria",
+            disease_cured="Malaria",
             preparation_method="Boil leaves in water",
             dosage="Twice daily",
         )

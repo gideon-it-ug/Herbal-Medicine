@@ -27,7 +27,7 @@ export default function PlantListScreen() {
 )}            
             <Text style={styles.name}>{item.name}</Text>
             {item.local_language && <Text style={styles.badge}>{item.local_language}</Text>}
-            <Text style={styles.ailment}>Treats: {item.ailments_treated}</Text>
+            <Text style={styles.ailment}>Cures: {item.disease_cured}</Text>
             <Text style={styles.arrow}>View Details →</Text>
           </TouchableOpacity>
         )}

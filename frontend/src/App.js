@@ -5,6 +5,7 @@ import PlantDetail from './pages/PlantDetail';
 import SearchResults from './pages/SearchResults';
 import Upload from './pages/Upload';
 import Login from './pages/Login';
+import Register from './pages/Register';
 import Chatbot from './pages/Chatbot';
 
 function PrivateRoute({ children }) {
@@ -21,6 +22,7 @@ function App() {
         <Route path='/plants/:id' element={<PlantDetail />} />
         <Route path='/search' element={<SearchResults />} />
         <Route path='/login' element={<Login />} />
+        <Route path='/register' element={<Register />} />
         <Route path='/chatbot' element={<Chatbot />} />
         <Route path='/upload' element={<PrivateRoute><Upload /></PrivateRoute>} />
       </Routes>

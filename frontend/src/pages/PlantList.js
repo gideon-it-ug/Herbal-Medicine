@@ -14,7 +14,7 @@ function PlantList() {
 
   const filtered = plants.filter(plant =>
     plant.name.toLowerCase().includes(search.toLowerCase()) ||
-    (plant.ailments_treated && plant.ailments_treated.toLowerCase().includes(search.toLowerCase())) ||
+    (plant.disease_cured && plant.disease_cured.toLowerCase().includes(search.toLowerCase())) ||
     (plant.scientific_name && plant.scientific_name.toLowerCase().includes(search.toLowerCase()))
   );
 
@@ -70,7 +70,7 @@ function PlantList() {
             {plant.scientific_name && <span className="badge">🔬 {plant.scientific_name}</span>}
             {plant.local_language && <span className="badge">{plant.local_language}</span>}
             {plant.geographic_distribution && <span className="badge">📍 {plant.geographic_distribution}</span>}
-            <p style={{ marginTop: '10px' }}><strong>Disease:</strong> {plant.ailments_treated}</p>
+            <p style={{ marginTop: '10px' }}><strong>Disease Cured:</strong> {plant.disease_cured}</p>
             <br />
             <Link to={`/plants/${plant.id}`}>View Full Details →</Link>
           </div>

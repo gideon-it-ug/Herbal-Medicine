@@ -26,7 +26,7 @@ export default function SearchScreen() {
         renderItem={({ item }) => (
           <TouchableOpacity style={styles.card} onPress={() => router.push({ pathname: '/plant/[id]', params: { id: item.id } })}>
             <Text style={styles.name}>{item.name}</Text>
-            <Text style={styles.ailment}>Treats: {item.ailments_treated}</Text>
+            <Text style={styles.ailment}>Cures: {item.disease_cured}</Text>
           </TouchableOpacity>
         )}
       />

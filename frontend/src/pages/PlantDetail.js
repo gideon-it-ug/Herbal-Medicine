@@ -38,8 +38,8 @@ function PlantDetail() {
           <hr style={{ margin: '20px 0', borderColor: '#e0e0e0' }} />
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
             <div className="detail-section">
-              <h4>Disease Treated</h4>
-              <p>{plant.ailments_treated || 'Not specified'}</p>
+              <h4>Disease Cured</h4>
+              <p>{plant.disease_cured || 'Not specified'}</p>
             </div>
             <div className="detail-section">
               <h4>Dosage</h4>

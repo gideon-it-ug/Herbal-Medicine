@@ -12,7 +12,7 @@ class PlantApiTests(APITestCase):
             name="Neem",
             scientific_name="Azadirachta indica",
             local_language="Lugwere",
-            ailments_treated="Malaria, fever",
+            disease_cured="Malaria, fever",
             preparation_method="Boil leaves in water",
             dosage="Take twice daily",
         )
@@ -31,7 +31,7 @@ class PlantApiTests(APITestCase):
     def test_create_plant_requires_authentication(self):
         payload = {
             "name": "Moringa",
-            "ailments_treated": "Anemia",
+            "disease_cured": "Anemia",
             "preparation_method": "Boil leaves",
             "dosage": "Once daily",
         }
@@ -47,7 +47,7 @@ class PlantApiTests(APITestCase):
 
         payload = {
             "name": "Moringa",
-            "ailments_treated": "Anemia",
+            "disease_cured": "Anemia",
             "preparation_method": "Boil leaves",
             "dosage": "Once daily",
             "local_language": "Lugwere",

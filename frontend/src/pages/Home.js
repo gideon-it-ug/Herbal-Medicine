@@ -30,7 +30,10 @@ function Home() {
               <span onClick={handleLogout} style={{ color: '#FF8F00', cursor: 'pointer', marginLeft: '20px' }}>Logout</span>
             </>
           ) : (
-            <Link to='/login'>Login</Link>
+            <>
+              <Link to='/login'>Contributor Login</Link>
+              <Link to='/register' style={{ marginLeft: '20px' }}>Sign Up</Link>
+            </>
           )}
         </div>
       </nav>

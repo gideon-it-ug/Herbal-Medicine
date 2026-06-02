@@ -51,6 +51,14 @@ export const loginUser = (username, password) =>
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ username, password }),
   }).then(parseJsonResponse);
+
+export const registerUser = (payload) =>
+  fetch(API_URL + "register/", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(payload),
+  }).then(parseJsonResponse);
+
 export const chatWithAssistant = (message) =>
   fetch(API_URL + "nlp/chat/", {
     method: "POST",

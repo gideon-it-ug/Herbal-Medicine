@@ -22,7 +22,7 @@ export default function PlantListScreen({ navigation }) {
           <TouchableOpacity style={styles.card} onPress={() => navigation.navigate('PlantDetail', { id: item.id })}>
             <Text style={styles.name}>{item.name}</Text>
             <Text style={styles.lang}>{item.local_language}  📍 {item.geographic_distribution}</Text>
-            <Text style={styles.ailment}>Treats: {item.ailments_treated}</Text>
+            <Text style={styles.ailment}>Cures: {item.disease_cured}</Text>
           </TouchableOpacity>
         )}
       />

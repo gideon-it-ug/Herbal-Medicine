@@ -11,7 +11,7 @@ with open('responses.csv') as f:
             scientific_name=row['Scientific name'],
             local_language=row['Local Language'],
             geographic_distribution=row['Geographic distribution'],
-            ailments_treated=row['Ailments treated'],
+            disease_cured=row['Ailments treated'],
             preparation_method=row['Preparation method '],
             dosage=row['Dosage'],
         )

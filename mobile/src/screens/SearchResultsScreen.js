@@ -24,7 +24,7 @@ export default function SearchResultsScreen({ route, navigation }) {
         renderItem={({ item }) => (
           <TouchableOpacity style={styles.card} onPress={() => navigation.navigate('PlantDetail', { id: item.id })}>
             <Text style={styles.name}>{item.name}</Text>
-            <Text style={styles.ailment}>Treats: {item.ailments_treated}</Text>
+            <Text style={styles.ailment}>Cures: {item.disease_cured}</Text>
           </TouchableOpacity>
         )}
       />

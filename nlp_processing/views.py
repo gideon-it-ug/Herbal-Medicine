@@ -93,7 +93,7 @@ class ExtractedDataViewSet(viewsets.ModelViewSet):
         matched = []
         for plant in plants:
             fields = [
-                plant.ailments_treated or '',
+                plant.disease_cured or '',
                 plant.name or '',
                 plant.preparation_method or '',
                 plant.cultural_significance or '',
@@ -105,8 +105,8 @@ class ExtractedDataViewSet(viewsets.ModelViewSet):
             response = f"🌿 I found {len(matched)} plant(s) that may help:\n\n"
             for plant in matched:
                 response += f"• {plant.name}"
-                if plant.ailments_treated:
-                    response += f" — treats {plant.ailments_treated}"
+                if plant.disease_cured:
+                    response += f" — cures {plant.disease_cured}"
                 if plant.preparation_method:
                     response += f"\n  Preparation: {plant.preparation_method}"
                 if plant.dosage:
