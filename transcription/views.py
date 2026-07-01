@@ -7,6 +7,17 @@ from rest_framework.decorators import action
 from .models import Transcription
 from .serializers import TranscriptionSerializer
 
+_whisper_model = None
+
+
+def get_whisper_model():
+    global _whisper_model
+    if _whisper_model is None:
+        import whisper
+        _whisper_model = whisper.load_model("base")
+    return _whisper_model
+
+
 class TranscriptionViewSet(viewsets.ModelViewSet):
     queryset = Transcription.objects.all()
     serializer_class = TranscriptionSerializer
@@ -28,8 +39,7 @@ class TranscriptionViewSet(viewsets.ModelViewSet):
                 status=status.HTTP_409_CONFLICT,
             )
 
-        import whisper
-        model = whisper.load_model("base")
+        model = get_whisper_model()
         audio_path = transcription.audio_file.path
         result = model.transcribe(audio_path)
 

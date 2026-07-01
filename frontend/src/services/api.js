@@ -17,24 +17,47 @@ const parseJsonResponse = async (response) => {
   return data;
 };
 
+const refreshAccessToken = async () => {
+  const refresh = localStorage.getItem("refresh");
+  if (!refresh) return null;
+  const response = await fetch(`${API_URL}token/refresh/`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ refresh }),
+  });
+  if (!response.ok) return null;
+  const data = await response.json();
+  localStorage.setItem("access", data.access);
+  return data.access;
+};
+
+const authFetch = async (url, options = {}) => {
+  const token = localStorage.getItem("access");
+  const headers = { ...options.headers };
+  if (token) headers.Authorization = `Bearer ${token}`;
+
+  let response = await fetch(url, { ...options, headers });
+  if (response.status === 401) {
+    const newToken = await refreshAccessToken();
+    if (newToken) {
+      headers.Authorization = `Bearer ${newToken}`;
+      response = await fetch(url, { ...options, headers });
+    }
+  }
+  return response;
+};
+
 // GET with token
 export const fetchWithAuth = async (endpoint) => {
-  const token = localStorage.getItem("access");
-  const response = await fetch(API_URL + endpoint, {
-    headers: { "Authorization": `Bearer ${token}` },
-  });
+  const response = await authFetch(API_URL + endpoint);
   return parseJsonResponse(response);
 };
 
 // POST with token
 export const postWithAuth = async (endpoint, data) => {
-  const token = localStorage.getItem("access");
-  const response = await fetch(API_URL + endpoint, {
+  const response = await authFetch(API_URL + endpoint, {
     method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      "Authorization": `Bearer ${token}`,
-    },
+    headers: { "Content-Type": "application/json" },
     body: JSON.stringify(data),
   });
   return parseJsonResponse(response);
@@ -43,7 +66,7 @@ export const postWithAuth = async (endpoint, data) => {
 // Plants
 export const getPlants = () => fetch(API_URL + "plants/").then(res => res.json());
 export const getPlant = (id) => fetch(API_URL + `plants/${id}/`).then(res => res.json());
-export const searchPlants = (query) => fetch(API_URL + `plants/?search=${query}`).then(res => res.json());
+export const searchPlants = (query) => fetch(API_URL + `plants/?search=${encodeURIComponent(query)}`).then(res => res.json());
 export const getTranscriptions = () => fetch(API_URL + "transcriptions/").then(res => res.json());
 export const loginUser = (username, password) =>
   fetch(API_URL + "token/", {
@@ -68,28 +91,24 @@ export const chatWithAssistant = (message) =>
 
 // Transcription
 export const uploadTranscription = async (formData) => {
-  const token = localStorage.getItem("access");
-  const response = await fetch(API_URL + "transcriptions/", {
+  const response = await authFetch(API_URL + "transcriptions/", {
     method: "POST",
-    headers: { "Authorization": `Bearer ${token}` },
     body: formData,
   });
   return parseJsonResponse(response);
 };
-export const transcribeRecording = async (id, token) => {
-  const response = await fetch(API_URL + `transcriptions/${id}/transcribe/`, {
+
+export const transcribeRecording = async (id) => {
+  const response = await authFetch(API_URL + `transcriptions/${id}/transcribe/`, {
     method: "POST",
-    headers: { Authorization: `Bearer ${token}` },
   });
   return parseJsonResponse(response);
 };
-export const createPlant = async (token, payload) => {
-  const response = await fetch(API_URL + "plants/", {
+
+export const createPlant = async (payload) => {
+  const response = await authFetch(API_URL + "plants/", {
     method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
-    },
+    headers: { "Content-Type": "application/json" },
     body: JSON.stringify(payload),
   });
   return parseJsonResponse(response);

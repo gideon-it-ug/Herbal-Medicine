@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, ScrollView, StyleSheet, SafeAreaView, ActivityIndicator } from 'react-native';
+import { View, Text, ScrollView, StyleSheet, SafeAreaView, ActivityIndicator, Image } from 'react-native';
 import { useLocalSearchParams } from 'expo-router';
-import { getPlant } from '../../src/services/api';
+import { buildMediaUrl, getPlant } from '../../src/services/api';
 
 export default function PlantDetailScreen() {
   const { id } = useLocalSearchParams();
@@ -25,6 +25,9 @@ export default function PlantDetailScreen() {
           <Text style={styles.name}>{plant.name}</Text>
           {plant.scientific_name && <Text style={styles.sci}>🔬 {plant.scientific_name}</Text>}
           {plant.local_language && <Text style={styles.badge}>{plant.local_language}</Text>}
+          {plant.image && (
+            <Image source={{ uri: buildMediaUrl(plant.image) }} style={styles.image} />
+          )}
         </View>
         <View style={styles.body}>
           <Field label="DISEASE CURED" value={plant.disease_cured} />
@@ -46,6 +49,7 @@ const styles = StyleSheet.create({
   name: { fontSize: 26, fontWeight: '800', color: '#F5E6C8', marginBottom: 6 },
   sci: { color: '#A8D5B5', fontSize: 14, marginBottom: 6 },
   badge: { backgroundColor: '#2d5a3d', color: 'white', paddingHorizontal: 10, paddingVertical: 3, borderRadius: 20, fontSize: 12, alignSelf: 'flex-start' },
+  image: { width: '100%', height: 200, borderRadius: 8, marginTop: 16 },
   body: { padding: 16 },
   field: { backgroundColor: 'white', borderRadius: 10, padding: 14, marginBottom: 10, elevation: 1 },
   label: { fontSize: 11, fontWeight: '700', color: '#C8860A', letterSpacing: 1.5, marginBottom: 4 },

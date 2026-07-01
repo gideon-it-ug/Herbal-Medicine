@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, FlatList, TouchableOpacity, StyleSheet, SafeAreaView, ActivityIndicator, Image } from 'react-native';
 import { useRouter } from 'expo-router';
-import { getPlants } from '../src/services/api';
+import { buildMediaUrl, getPlants } from '../src/services/api';
 
 export default function PlantListScreen() {
   const [plants, setPlants] = useState([]);
@@ -23,8 +23,8 @@ export default function PlantListScreen() {
         renderItem={({ item }) => (
           <TouchableOpacity style={styles.card} onPress={() => router.push({ pathname: '/plant/[id]', params: { id: item.id } })}>
             {item.image && (
-  <Image source={{ uri: item.image }} style={{ width: '100%', height: 120, borderRadius: 8, marginBottom: 8 }} />
-)}            
+              <Image source={{ uri: buildMediaUrl(item.image) }} style={{ width: '100%', height: 120, borderRadius: 8, marginBottom: 8 }} />
+            )}            
             <Text style={styles.name}>{item.name}</Text>
             {item.local_language && <Text style={styles.badge}>{item.local_language}</Text>}
             <Text style={styles.ailment}>Cures: {item.disease_cured}</Text>

@@ -1,17 +1,30 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, SafeAreaView, ScrollView } from 'react-native';
-import { useRouter } from 'expo-router';
+import { useRouter, useFocusEffect } from 'expo-router';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { getPlants, getTranscriptions } from '../src/services/api';
 
 export default function HomeScreen() {
   const [query, setQuery] = useState('');
   const [stats, setStats] = useState({ plants: 0, transcriptions: 0 });
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const router = useRouter();
+
+  useFocusEffect(
+    useCallback(() => {
+      AsyncStorage.getItem('access').then((token) => setIsLoggedIn(!!token));
+    }, [])
+  );
 
   useEffect(() => {
     getPlants().then(res => setStats(prev => ({ ...prev, plants: res.data.length })));
     getTranscriptions().then(res => setStats(prev => ({ ...prev, transcriptions: res.data.length })));
   }, []);
+
+  const handleLogout = async () => {
+    await AsyncStorage.multiRemove(['access', 'refresh']);
+    setIsLoggedIn(false);
+  };
 
   return (
     <SafeAreaView style={styles.container}>
@@ -63,6 +76,21 @@ export default function HomeScreen() {
             <Text style={styles.cardTitle2}>Chatbot</Text>
             <Text style={styles.cardDesc2}>Ask about remedies</Text>
           </TouchableOpacity>
+          <TouchableOpacity
+            style={[styles.card, { backgroundColor: '#FF8F00' }]}
+            onPress={() => router.push(isLoggedIn ? '/upload' : '/login')}
+          >
+            <Text style={styles.cardIcon}>🎤</Text>
+            <Text style={styles.cardTitle2}>Upload</Text>
+            <Text style={styles.cardDesc2}>{isLoggedIn ? 'Add plant data' : 'Contributor login'}</Text>
+          </TouchableOpacity>
+          {isLoggedIn && (
+            <TouchableOpacity style={styles.card} onPress={handleLogout}>
+              <Text style={styles.cardIcon}>🚪</Text>
+              <Text style={styles.cardTitle}>Logout</Text>
+              <Text style={styles.cardDesc}>End session</Text>
+            </TouchableOpacity>
+          )}
         </View>
       </ScrollView>
     </SafeAreaView>

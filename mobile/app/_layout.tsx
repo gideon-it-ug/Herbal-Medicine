@@ -8,6 +8,9 @@ export default function Layout() {
       <Stack.Screen name="plant/[id]" options={{ title: 'Plant Detail' }} />
       <Stack.Screen name="search" options={{ title: 'Search Results' }} />
       <Stack.Screen name="chatbot" options={{ title: 'Chatbot' }} />
+      <Stack.Screen name="login" options={{ title: 'Login' }} />
+      <Stack.Screen name="register" options={{ title: 'Sign Up' }} />
+      <Stack.Screen name="upload" options={{ title: 'Upload Recording' }} />
     </Stack>
   );
 }

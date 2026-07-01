@@ -26,7 +26,6 @@ function Upload() {
     cultivation_notes: '',
   });
   const navigate = useNavigate();
-  const token = localStorage.getItem('access');
 
   const handleManualChange = (field) => (event) => {
     setManualData(prev => ({ ...prev, [field]: event.target.value }));
@@ -56,7 +55,7 @@ function Upload() {
     setLoading(true);
     setStatus('Transcribing audio with Whisper AI... this may take a few minutes.');
     try {
-      const data = await transcribeRecording(transcriptionId, token);
+      const data = await transcribeRecording(transcriptionId);
       setTranscribedText(data.transcribed_text);
       setStatus('Transcription complete! Click Extract Data to identify plant information.');
     } catch {
@@ -82,7 +81,7 @@ function Upload() {
     setLoading(true);
     setStatus('Saving plant data to the database...');
     try {
-      await createPlant(token, payload);
+      await createPlant(payload);
       setStatus('Plant saved to database successfully!');
       setTimeout(() => navigate('/plants'), 2000);
     } catch {
