@@ -1,4 +1,4 @@
-django
+﻿django
 djangorestframework
 djangorestframework-simplejwt
 django-cors-headers
@@ -6,3 +6,5 @@ python-dotenv
 psycopg[binary]
 openai-whisper
 Pillow
+gunicorn
+# Note: For quick Render test deployments, consider using a lighter requirements file that omits heavy ML packages (openai-whisper, torch) if you don't need transcription in the test environment.
