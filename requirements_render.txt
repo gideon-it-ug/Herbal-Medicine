@@ -1,0 +1,10 @@
+django==6.0.7
+djangorestframework==3.17.1
+djangorestframework-simplejwt==5.5.1
+django-cors-headers
+python-dotenv
+Pillow
+gunicorn
+python-dotenv
+# Note: This lightweight requirements file omits heavy optional packages (e.g. openai-whisper, psycopg[binary])
+# Add additional packages here if your Render deployment requires them.

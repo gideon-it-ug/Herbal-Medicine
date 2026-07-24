@@ -1,0 +1,18 @@
+services:
+  - type: web
+    name: herbal-medicine-backend
+    env: python
+    plan: free
+    buildCommand: pip install -r requirements_render.txt
+    startCommand: bash -lc "python manage.py migrate --noinput && gunicorn herbal_medicine.wsgi:application --bind 0.0.0.0:$PORT"
+    envVars:
+      - key: DB_ENGINE
+        value: django.db.backends.sqlite3
+      - key: DB_NAME
+        value: db.sqlite3
+      - key: DJANGO_DEBUG
+        value: 'True'
+# To use this render.yaml:
+# 1) Push the file to your repository.
+# 2) On Render, create a new Web Service from your GitHub repo (Render will detect render.yaml and use it).
+# 3) Optionally add production secrets on Render (e.g., DJANGO_SECRET_KEY) via the Render dashboard.

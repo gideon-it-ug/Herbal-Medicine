@@ -1,0 +1,1 @@
+web: bash -lc "python manage.py migrate --noinput && gunicorn herbal_medicine.wsgi:application --bind 0.0.0.0:$PORT"
