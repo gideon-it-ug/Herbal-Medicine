@@ -1,0 +1,351 @@
+{
+  "intents": [
+    {
+      "tag": "greeting",
+      "patterns": [
+        "hi there", "hello there", "hey there", "good morning", "good afternoon",
+        "good evening", "osiibire", "oli otya", "how are you", "how are you doing",
+        "how is it going", "greetings", "jambo", "habari", "good day",
+        "what's up", "yo", "hi", "hello", "hey", "halo", "hallow",
+        "sup", "howdy", "morning", "afternoon", "evening", "good to see you",
+        "nice to see you", "long time no see", "how have you been", "hi hi"
+      ],
+      "responses": [
+        "👋 Osiibire! Welcome to the Herbal Medicine Repository. I can help you find medicinal plants from Bukedi Sub-Region. Try asking: 'what treats malaria?' or 'tell me about Kigajji'",
+        "👋 Hello! I'm your Herbal Medicine Assistant for Bukedi. Ask me about any medicinal plant or ailment — for example: 'what treats fever?' or 'what plants treat diabetes?'",
+        "👋 Welcome! I'm here to help you explore traditional herbal medicine from Bukedi Sub-Region. What would you like to know today?",
+        "👋 Hi there! I can help you find plants that treat specific ailments, tell you about medicinal plants, or list all available plants. What can I help you with?"
+      ],
+      "supervisor_responses": [
+        "👋 Osiibire! Welcome back, supervisor. As an administrator you can also review pending submissions, generate reports, and manage the knowledge base. How can I assist you today?",
+        "👋 Hello, supervisor. You have elevated access to manage herbal knowledge submissions, validate records, and generate system reports. What would you like to do?",
+        "👋 Welcome, administrator. Beyond searching plants, you can approve/reject submissions, manage user accounts, and view analytics. How may I help?"
+      ]
+    },
+    {
+      "tag": "list_plants",
+      "patterns": [
+        "what plants", "all plants", "available plants", "list plants", "show me plants",
+        "what medicinal plants", "plants available", "tell me all plants",
+        "how many plants", "number of plants", "plant list", "browse plants",
+        "what do you have", "show plants", "give me plants", "what plants are there",
+        "list all medicinal plants", "show all plants", "what is available"
+      ],
+      "responses": [
+        "🌿 We currently have {plant_count} plant(s) documented in our repository. Ask me about any specific plant by name!",
+        "🌿 Our repository contains {plant_count} medicinal plant(s) from Bukedi Sub-Region. Try asking 'tell me about {first_plant}' or 'what treats fever?'",
+        "🌿 There are {plant_count} documented plant(s) in our system. You can search by plant name or ailment. What would you like to explore?",
+        "🌿 We have {plant_count} plant(s) preserved in our digital repository. Each plant has detailed information about its traditional uses, preparation, and dosage."
+      ],
+      "supervisor_responses": [
+        "🌿 We currently have {plant_count} plant(s) documented. As a supervisor, you can also review pending submissions ({pending_count} pending) and generate reports on plant documentation progress.",
+        "🌿 {plant_count} plants are documented. Supervisor view: you can manage these records, approve new submissions, and run classification reports. {pending_count} submissions await your review."
+      ]
+    },
+    {
+      "tag": "search_by_ailment",
+      "patterns": [
+        "what treats malaria", "what cures malaria", "malaria remedy", "malaria treatment",
+        "what treats fever", "fever remedy", "what cures fever", "fever treatment",
+        "what treats diabetes", "diabetes remedy", "diabetes treatment",
+        "what treats cough", "cough remedy", "cough treatment",
+        "what treats stomach", "stomach ache", "stomach disorder",
+        "what treats hypertension", "high blood pressure", "hypertension remedy",
+        "what treats skin", "skin infection", "skin disease",
+        "what treats headache", "headache remedy",
+        "what treats cold", "common cold",
+        "what treats pain", "pain relief", "painkiller",
+        "what treats infection", "bacterial infection",
+        "what treats inflammation", "anti-inflammatory",
+        "what treats digestive", "digestion problem",
+        "what helps with malaria", "what helps with fever", "what helps with diabetes",
+        "remedy for malaria", "remedy for fever", "remedy for cough",
+        "treatment for diabetes", "treatment for hypertension"
+      ],
+      "responses": [
+        "🌿 I found {match_count} plant(s) that may help with '{ailment}':\n\n{match_details}",
+        "🌿 Here are {match_count} plant(s) traditionally used to treat '{ailment}':\n\n{match_details}",
+        "🌿 Based on our records, {match_count} plant(s) can help with '{ailment}':\n\n{match_details}",
+        "🌿 For '{ailment}', we have {match_count} documented plant(s):\n\n{match_details}"
+      ],
+      "supervisor_responses": [
+        "🌿 Found {match_count} plant(s) for '{ailment}'. Supervisor note: you can review and validate these treatment records. {match_details}",
+        "🌿 {match_count} plant(s) treat '{ailment}'. As supervisor, you can verify these records and check for duplicates. {match_details}"
+      ]
+    },
+    {
+      "tag": "search_by_name",
+      "patterns": [
+        "tell me about kigajji", "kigajji", "what is kigajji", "kigajji plant",
+        "tell me about", "what is", "describe", "information about",
+        "details about", "what can you tell me about", "plant info",
+        "about this plant", "what is this plant", "plant description",
+        "tell me more about", "what do you know about", "what is the use of",
+        "what can you tell me about kigajji", "describe this plant", "what does this plant do",
+        "tell me about mubirubi", "what is mubirubi", "tell me about omwetango"
+      ],
+      "responses": [
+        "🌿 Here's what I found about '{plant_name}':\n\n{match_details}",
+        "🌿 Information about '{plant_name}':\n\n{match_details}",
+        "🌿 '{plant_name}' details:\n\n{match_details}",
+        "🌿 Here are the details for '{plant_name}':\n\n{match_details}"
+      ],
+      "supervisor_responses": [
+        "🌿 '{plant_name}' — supervisor view: you can edit, validate, or remove this record. {match_details}",
+        "🌿 Details for '{plant_name}'. As supervisor, you have full management access to this record. {match_details}"
+      ]
+    },
+    {
+      "tag": "preparation_method",
+      "patterns": [
+        "how to prepare", "preparation method", "how is it prepared",
+        "how do you use", "how to use", "how to make", "how to cook",
+        "preparation", "how to take", "how to consume", "dosage",
+        "how much to take", "recommended dose", "dosage instructions",
+        "how to administer", "administration", "how to prepare the plant",
+        "how to make the remedy", "preparation instructions", "how to brew"
+      ],
+      "responses": [
+        "📋 The preparation method for '{plant_name}' is: {preparation}\n\nDosage: {dosage}",
+        "📋 To prepare '{plant_name}': {preparation}\n\nRecommended dosage: {dosage}",
+        "📋 Preparation: {preparation}\n\nDosage: {dosage}",
+        "📋 For '{plant_name}', prepare it as: {preparation}\n\nDosage: {dosage}"
+      ],
+      "supervisor_responses": [
+        "📋 Preparation for '{plant_name}': {preparation}\nDosage: {dosage}\nSupervisor: verify these instructions are accurate and safe before publication.",
+        "📋 '{plant_name}' — preparation: {preparation}, dosage: {dosage}. Supervisor: you can review and update these fields in the management panel."
+      ]
+    },
+    {
+      "tag": "side_effects",
+      "patterns": [
+        "side effects", "side effect", "contraindications", "contraindication",
+        "is it safe", "safety", "dangerous", "risks", "warnings",
+        "can it harm", "negative effects", "adverse effects", "not safe",
+        "should not take", "when not to use", "avoid", "is it dangerous",
+        "any side effects", "what are the risks", "safety concerns", "is it harmful"
+      ],
+      "responses": [
+        "⚠️ For '{plant_name}', the documented side effects are: {side_effects}\n\nAlways consult a traditional health practitioner before use.",
+        "⚠️ '{plant_name}' may cause: {side_effects}\n\nPlease consult a qualified practitioner for personalized advice.",
+        "⚠️ Safety note for '{plant_name}': {side_effects}\n\nUse responsibly and seek professional guidance.",
+        "⚠️ Contraindications for '{plant_name}': {side_effects}\n\nConsult a healthcare provider before using this remedy."
+      ],
+      "supervisor_responses": [
+        "⚠️ '{plant_name}' side effects: {side_effects}. Supervisor: ensure contraindications are clearly documented and reviewed for accuracy.",
+        "⚠️ Safety information for '{plant_name}': {side_effects}. Supervisor: you can update these safety notes in the plant management panel."
+      ]
+    },
+    {
+      "tag": "thank_you",
+      "patterns": [
+        "thank", "thanks", "thank you", "webale", "asante", "shukran",
+        "much appreciated", "grateful", "appreciate it", "danke",
+        "thank you so much", "thanks a lot", "thank you very much",
+        "i appreciate it", "many thanks", "thank you so", "thanks heaps"
+      ],
+      "responses": [
+        "🙏 You're welcome! Stay healthy and keep exploring our herbal knowledge repository.",
+        "🙏 My pleasure! Feel free to ask if you have more questions about herbal medicine.",
+        "🙏 Happy to help! May traditional medicine keep you well. Ask me anything else!",
+        "🙏 You're most welcome! The wisdom of our ancestors is here to serve you."
+      ],
+      "supervisor_responses": [
+        "🙏 You're welcome, supervisor. Is there anything else you need — perhaps a report or pending submission review?",
+        "🙏 Happy to assist, administrator. Let me know if you need help with system management tasks."
+      ]
+    },
+    {
+      "tag": "help",
+      "patterns": [
+        "help", "what can you do", "how do you work", "what can you help with",
+        "what do you do", "how does this work", "what are your features",
+        "capabilities", "what can i ask", "how to use", "instructions",
+        "guide", "how to search", "how to find plants", "i need help",
+        "can you help me", "help me", "i need assistance", "can you assist",
+        "how do i use this", "how to navigate", "what can i do here"
+      ],
+      "responses": [
+        "🤖 I can help you:\n• Find plants that treat specific ailments (e.g. 'what treats malaria?')\n• Tell you about a specific plant (e.g. 'tell me about Kigajji')\n• List all available plants\n• Provide preparation and dosage information\n• Share safety and side effect information\n\nJust ask me anything about herbal medicine!",
+        "🤖 I'm your Herbal Medicine Assistant! I can:\n• Search for remedies by ailment\n• Provide plant details and descriptions\n• Explain preparation methods and dosages\n• Share safety information\n• List all documented plants\n\nTry asking: 'what treats fever?' or 'tell me about Kigajji'",
+        "🤖 Here's what I can do:\n• 🔍 Search plants by ailment or name\n• 📋 Provide preparation and dosage info\n• ⚠️ Share side effects and safety notes\n• 🌿 List all available medicinal plants\n• 📝 Help with knowledge documentation\n\nWhat would you like to explore?",
+        "🤖 I assist with preserving and sharing African traditional herbal medicine knowledge. You can ask me about medicinal plants, their uses, preparations, and dosages. For example: 'what treats diabetes?' or 'how to prepare Kigajji?'"
+      ],
+      "supervisor_responses": [
+        "🤖 As your Herbal Medicine Assistant, I can help with:\n• 🔍 Search and retrieve plant information\n• 📊 Generate reports on documentation progress\n• ✅ Review pending knowledge submissions\n• 👥 Manage user accounts and roles\n• 📈 View system analytics and statistics\n• 🎯 Run AI classification on plant data\n\nWhat administrative task would you like help with?",
+        "🤖 Supervisor capabilities:\n• Search and manage all plant records\n• Review and validate pending submissions\n• Generate analytical reports\n• Manage user roles and permissions\n• Monitor system activity\n• Run NLP and classification on transcriptions\n\nHow can I assist with system administration?"
+      ]
+    },
+    {
+      "tag": "goodbye",
+      "patterns": [
+        "bye", "goodbye", "see you", "bye bye", "farewell", "see ya",
+        "talk to you later", "catch you later", "adios", "ciao",
+        "until next time", "bye for now", "see you later", "bye now",
+        "i need to go", "i have to leave", "got to go", "see you soon"
+      ],
+      "responses": [
+        "👋 Goodbye! May the wisdom of traditional medicine guide you. Come back anytime!",
+        "👋 Farewell! Stay healthy and remember to consult practitioners for serious conditions.",
+        "👋 See you later! Keep exploring the rich heritage of herbal medicine.",
+        "👋 Bye for now! The repository will always be here when you need it."
+      ],
+      "supervisor_responses": [
+        "👋 Goodbye, supervisor. Remember to review pending submissions before you go!",
+        "👋 Farewell, administrator. The system will be here when you return."
+      ]
+    },
+    {
+      "tag": "classification_disease",
+      "patterns": [
+        "classify by disease", "disease classification", "group by disease",
+        "plants for malaria", "plants for fever", "plants for diabetes",
+        "plants for cough", "plants for hypertension", "plants for skin",
+        "plants for stomach", "plants for headache", "plants for pain",
+        "disease categories", "ailment groups", "treatment by disease",
+        "what plants for", "which plants for", "classify by ailment",
+        "ailment classification", "group by ailment", "disease groups",
+        "what diseases", "list diseases", "ailment categories"
+      ],
+      "responses": [
+        "🎯 Plants are classified by disease. Here are the categories:\n{classification_details}",
+        "🎯 Our AI classifies plants by disease. Categories include: {classification_details}",
+        "🎯 Disease-based classification:\n{classification_details}",
+        "🎯 Medicinal plants grouped by disease:\n{classification_details}"
+      ],
+      "supervisor_responses": [
+        "🎯 Disease classification results:\n{classification_details}\nSupervisor: you can review and adjust these classifications in the management panel.",
+        "🎯 AI disease classification:\n{classification_details}\nSupervisor: verify these groupings for accuracy and completeness."
+      ]
+    },
+    {
+      "tag": "classification_plant_family",
+      "patterns": [
+        "plant family", "botanical family", "classify by family",
+        "family classification", "taxonomic", "taxonomy",
+        "fabaceae", "asteraceae", "lamiaceae", "rutaceae",
+        "plant families", "botanical classification", "what botanical family",
+        "plant taxonomy groups", "family groups", "taxonomic groups",
+        "what family is this plant", "botanical families", "plant family classification"
+      ],
+      "responses": [
+        "🌱 Plants are classified by botanical family:\n{classification_details}",
+        "🌱 Plant family classification:\n{classification_details}",
+        "🌱 Our system groups plants by botanical family:\n{classification_details}",
+        "🌱 Botanical family groupings:\n{classification_details}"
+      ],
+      "supervisor_responses": [
+        "🌱 Plant family classification:\n{classification_details}\nSupervisor: you can update plant family data in the management panel.",
+        "🌱 Botanical family groupings:\n{classification_details}\nSupervisor: review these classifications for scientific accuracy."
+      ]
+    },
+    {
+      "tag": "classification_body_system",
+      "patterns": [
+        "body system", "body part", "system classification",
+        "digestive system", "respiratory system", "circulatory system",
+        "nervous system", "reproductive system", "urinary system",
+        "musculoskeletal", "integumentary", "skin system",
+        "classify by body", "body area", "body system classification",
+        "what body system", "system groups", "body system groups",
+        "which body system", "body system categories"
+      ],
+      "responses": [
+        "🧬 Plants are classified by body system:\n{classification_details}",
+        "🧬 Body system classification:\n{classification_details}",
+        "🧬 Our AI groups plants by affected body system:\n{classification_details}",
+        "🧬 Body system groupings:\n{classification_details}"
+      ],
+      "supervisor_responses": [
+        "🧬 Body system classification:\n{classification_details}\nSupervisor: you can review and adjust these groupings.",
+        "🧬 AI body system classification:\n{classification_details}\nSupervisor: verify these groupings for accuracy."
+      ]
+    },
+    {
+      "tag": "classification_treatment",
+      "patterns": [
+        "treatment category", "therapeutic", "therapeutic property",
+        "antimalarial", "antibacterial", "antiviral", "antifungal",
+        "anti-inflammatory", "analgesic", "wound healing",
+        "immune boosting", "nutritional", "treatment type",
+        "therapeutic category", "healing property", "what treatment category",
+        "therapeutic groups", "healing categories", "treatment groups",
+        "therapeutic categories", "healing types", "treatment categories",
+        "what therapeutic properties", "therapeutic classification"
+      ],
+      "responses": [
+        "💊 Plants are classified by therapeutic properties:\n{classification_details}",
+        "💊 Treatment category classification:\n{classification_details}",
+        "💊 Our AI classifies plants by therapeutic properties:\n{classification_details}",
+        "💊 Therapeutic property groupings:\n{classification_details}"
+      ],
+      "supervisor_responses": [
+        "💊 Therapeutic classification:\n{classification_details}\nSupervisor: you can review and update treatment categories.",
+        "💊 AI treatment classification:\n{classification_details}\nSupervisor: verify these therapeutic groupings for accuracy."
+      ]
+    },
+    {
+      "tag": "no_match",
+      "patterns": [
+        "xyz", "asdf", "random", "nothing", "blah blah", "test123",
+        "qwerty", "nonsense", "gibberish", "???", "!!!", "12345",
+        "i don't know what to ask", "random text here", "blah blah blah",
+        "nothing makes sense", "this is random", "what is this",
+        "asdfgh", "zxcvbn", "random word", "nonsense text", "empty",
+        "test", "testing", "random query", "meaningless", "garble"
+      ],
+      "responses": [
+        "🌿 I'm a Herbal Medicine Assistant and I can only help with questions about medicinal plants and ailments from Bukedi Sub-Region. Try asking:\n• 'What treats malaria?'\n• 'Tell me about Kigajji'\n• 'What plants are available?'\n• 'What treats fever?'",
+        "🌿 I specialize in African traditional herbal medicine from Bukedi. I can help you find plants for specific ailments, learn about medicinal plants, or list all available plants. What would you like to know?",
+        "🌿 I'm here to help with traditional herbal medicine questions. Try asking about a specific plant or ailment — for example: 'what treats stomach problems?' or 'tell me about Mubirubi'",
+        "🌿 I focus on preserving Bukedi Sub-Region herbal medicine knowledge. Ask me about medicinal plants, their uses, or ailments they treat. For example: 'what plants treat diabetes?'"
+      ],
+      "supervisor_responses": [
+        "🌿 I'm focused on herbal medicine queries. As a supervisor, you can also ask me about reports, pending submissions, or system management. Try: 'generate report' or 'show pending'",
+        "🌿 I handle herbal medicine questions. Supervisor commands: 'show pending', 'generate report', 'list users', or ask about any plant/ailment."
+      ]
+    },
+    {
+      "tag": "reports",
+      "patterns": [
+        "generate report", "reports", "analytics", "statistics", "stats",
+        "system report", "usage report", "activity report",
+        "generate analytics", "show stats", "dashboard",
+        "system statistics", "report generation", "view reports",
+        "generate analytics report", "show me analytics", "view dashboard",
+        "system usage", "activity statistics", "generate dashboard"
+      ],
+      "responses": [
+        "📊 The Reports Module provides:\n• Total documented medicinal plants\n• Registered Traditional Health Practitioners\n• Documented diseases and health conditions\n• Pending herbal knowledge submissions\n• Recent uploads and activity\n\nAs an administrator, you can access the full reports dashboard.",
+        "📊 Reports include: plant count, practitioner registrations, disease coverage, pending approvals, and recent activity. Access the full dashboard from the admin panel.",
+        "📊 The system generates reports on documentation progress, user activity, and knowledge validation. These are available to administrators in the Reports Module.",
+        "📊 Reports track: total plants, registered practitioners, documented diseases, pending approvals, and recent uploads. Administrators can view detailed analytics in the dashboard."
+      ],
+      "supervisor_responses": [
+        "📊 Available reports:\n• Total documented plants: {plant_count}\n• Registered practitioners: {practitioner_count}\n• Documented diseases: {disease_count}\n• Pending approvals: {pending_count}\n\nWould you like me to generate a detailed report?",
+        "📊 System analytics:\n• Plants: {plant_count}\n• Practitioners: {practitioner_count}\n• Diseases: {disease_count}\n• Pending: {pending_count}\n\nI can help you access the full reports dashboard or generate specific reports."
+      ]
+    },
+    {
+      "tag": "pending_submissions",
+      "patterns": [
+        "pending", "pending submissions", "pending approval", "awaiting review",
+        "unapproved", "not approved", "needs review", "review queue",
+        "approval queue", "pending plants", "pending knowledge",
+        "what is pending", "show me pending", "pending items",
+        "awaiting approval", "pending review", "submission queue"
+      ],
+      "responses": [
+        "📋 There are {pending_count} herbal knowledge submission(s) awaiting your review. You can approve or reject them in the Knowledge Validation Module.",
+        "📋 {pending_count} submission(s) are pending approval. Review them in the admin panel to maintain knowledge quality.",
+        "📋 The Knowledge Validation Module shows {pending_count} pending submission(s). Each requires administrator review before publication.",
+        "📋 {pending_count} herbal knowledge record(s) await validation. Approve or reject them to maintain the integrity of the repository."
+      ],
+      "supervisor_responses": [
+        "📋 {pending_count} submission(s) await your review. Supervisor: you can approve, reject, or request corrections. Would you like to review them now?",
+        "📋 {pending_count} pending submission(s) in the validation queue. As supervisor, you can approve, reject, or edit these records. Access the validation panel to proceed.",
+        "📋 Review queue: {pending_count} pending submission(s). Supervisor: each record needs your approval before it becomes publicly accessible. Shall I guide you to the validation panel?"
+      ]
+    }
+  ]
+}

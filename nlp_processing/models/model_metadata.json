@@ -1,0 +1,37 @@
+{
+  "accuracy": 0.7282608695652174,
+  "num_intents": 16,
+  "intents": [
+    "classification_body_system",
+    "classification_disease",
+    "classification_plant_family",
+    "classification_treatment",
+    "goodbye",
+    "greeting",
+    "help",
+    "list_plants",
+    "no_match",
+    "pending_submissions",
+    "preparation_method",
+    "reports",
+    "search_by_ailment",
+    "search_by_name",
+    "side_effects",
+    "thank_you"
+  ],
+  "num_training_samples": 368,
+  "model_type": "TF-IDF + Logistic Regression",
+  "vectorizer_params": {
+    "ngram_range": [
+      1,
+      2
+    ],
+    "max_features": 2000,
+    "sublinear_tf": true
+  },
+  "classifier_params": {
+    "max_iter": 1000,
+    "C": 10.0,
+    "solver": "lbfgs"
+  }
+}
