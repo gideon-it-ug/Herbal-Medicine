@@ -13,11 +13,22 @@ https://docs.djangoproject.com/en/6.0/ref/settings/
 import os
 from pathlib import Path
 from urllib.parse import urlparse
-
 import cloudinary
 import cloudinary.api
 import cloudinary.uploader
 from dotenv import load_dotenv
+
+
+BASE_DIR = Path(__file__).resolve().parent.parent
+
+# 1. Path where collectstatic will dump static files for production
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
+# 2. URL prefix for static files
+STATIC_URL = '/static/'
+
+# 3. (Optional) Storage backend using Whitenoise for serving static files in production
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 
 def env_bool(name, default=False):
