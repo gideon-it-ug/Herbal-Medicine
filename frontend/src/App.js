@@ -7,6 +7,11 @@ import Upload from './pages/Upload';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import Chatbot from './pages/Chatbot';
+import Dashboard from './pages/Dashboard';
+import Reports from './pages/Reports';
+import Approvals from './pages/Approvals';
+import Profile from './pages/Profile';
+import Classification from './pages/Classification';
 
 function PrivateRoute({ children }) {
   const token = localStorage.getItem('access');
@@ -25,6 +30,11 @@ function App() {
         <Route path='/register' element={<Register />} />
         <Route path='/chatbot' element={<Chatbot />} />
         <Route path='/upload' element={<PrivateRoute><Upload /></PrivateRoute>} />
+        <Route path='/dashboard' element={<PrivateRoute><Dashboard /></PrivateRoute>} />
+        <Route path='/reports' element={<PrivateRoute><Reports /></PrivateRoute>} />
+        <Route path='/approvals' element={<PrivateRoute><Approvals /></PrivateRoute>} />
+        <Route path='/profile' element={<PrivateRoute><Profile /></PrivateRoute>} />
+        <Route path='/classify' element={<Classification />} />
       </Routes>
     </BrowserRouter>
   );

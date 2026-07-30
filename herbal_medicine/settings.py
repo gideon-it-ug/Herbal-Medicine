@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/6.0/ref/settings/
 
 import os
 from pathlib import Path
+from urllib.parse import urlparse
 
 from dotenv import load_dotenv
 
@@ -33,6 +34,28 @@ def require_env(name):
     if not value:
         raise ValueError(f"Missing required environment variable: {name}")
     return value
+
+
+def get_database_config():
+    database_url = os.getenv("DATABASE_URL")
+    if database_url:
+        parsed = urlparse(database_url)
+        return {
+            "ENGINE": "django.db.backends.postgresql",
+            "NAME": parsed.path.lstrip("/"),
+            "USER": parsed.username or "postgres",
+            "PASSWORD": parsed.password or "",
+            "HOST": parsed.hostname or "localhost",
+            "PORT": parsed.port or 5432,
+        }
+    return {
+        "ENGINE": os.getenv("DB_ENGINE", "django.db.backends.postgresql"),
+        "NAME": os.getenv("DB_NAME", "herbal_medicine_db") if DEBUG else require_env("DB_NAME"),
+        "USER": os.getenv("DB_USER", "postgres") if DEBUG else require_env("DB_USER"),
+        "PASSWORD": os.getenv("DB_PASSWORD", "") if DEBUG else require_env("DB_PASSWORD"),
+        "HOST": os.getenv("DB_HOST", "localhost") if DEBUG else require_env("DB_HOST"),
+        "PORT": os.getenv("DB_PORT", "5432") if DEBUG else require_env("DB_PORT"),
+    }
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -108,14 +131,7 @@ WSGI_APPLICATION = 'herbal_medicine.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases
 DATABASES = {
-    'default': {
-        'ENGINE': os.getenv('DB_ENGINE', 'django.db.backends.postgresql'),
-        'NAME': os.getenv('DB_NAME', 'herbal_medicine_db') if DEBUG else require_env('DB_NAME'),
-        'USER': os.getenv('DB_USER', 'postgres') if DEBUG else require_env('DB_USER'),
-        'PASSWORD': os.getenv('DB_PASSWORD', '') if DEBUG else require_env('DB_PASSWORD'),
-        'HOST': os.getenv('DB_HOST', 'localhost') if DEBUG else require_env('DB_HOST'),
-        'PORT': os.getenv('DB_PORT', '5432') if DEBUG else require_env('DB_PORT'),
-    }
+    "default": get_database_config(),
 }
 
 
@@ -172,10 +188,8 @@ CORS_ALLOWED_ORIGINS = [
     ),
 ]
 CORS_ALLOW_ALL_ORIGINS = env_bool("CORS_ALLOW_ALL_ORIGINS", default=False)
-if not DEBUG:
-    CORS_ALLOW_ALL_ORIGINS = False
-    if not CORS_ALLOWED_ORIGINS:
-        raise ValueError("Set CORS_ALLOWED_ORIGINS in production")
+if not DEBUG and not CORS_ALLOW_ALL_ORIGINS and not CORS_ALLOWED_ORIGINS:
+    raise ValueError("Set CORS_ALLOWED_ORIGINS or CORS_ALLOW_ALL_ORIGINS in production")
 
 CSRF_TRUSTED_ORIGINS = env_list("CSRF_TRUSTED_ORIGINS", "")
 if not DEBUG and not CSRF_TRUSTED_ORIGINS:

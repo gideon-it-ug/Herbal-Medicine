@@ -64,7 +64,18 @@ export const postWithAuth = async (endpoint, data) => {
 };
 
 // Plants
-export const getPlants = () => fetch(API_URL + "plants/").then(res => res.json());
+export const getPlants = (filters = {}) => {
+  const params = new URLSearchParams();
+  if (filters.status) params.set('status', filters.status);
+  if (filters.disease) params.set('disease', filters.disease);
+  if (filters.family) params.set('family', filters.family);
+  if (filters.body_system) params.set('body_system', filters.body_system);
+  if (filters.treatment_category) params.set('treatment_category', filters.treatment_category);
+  if (filters.search) params.set('search', filters.search);
+  const qs = params.toString();
+  return fetch(`${API_URL}plants/${qs ? '?' + qs : ''}`).then(res => res.json());
+};
+
 export const getPlant = (id) => fetch(API_URL + `plants/${id}/`).then(res => res.json());
 export const searchPlants = (query) => fetch(API_URL + `plants/?search=${encodeURIComponent(query)}`).then(res => res.json());
 export const getTranscriptions = () => fetch(API_URL + "transcriptions/").then(res => res.json());
@@ -89,7 +100,6 @@ export const chatWithAssistant = (message, isSupervisor = false) =>
     body: JSON.stringify({ message, is_supervisor: isSupervisor }),
   }).then(parseJsonResponse);
 
-// Transcription
 export const uploadTranscription = async (formData) => {
   const response = await authFetch(API_URL + "transcriptions/", {
     method: "POST",
@@ -113,6 +123,60 @@ export const createPlant = async (payload) => {
   });
   return parseJsonResponse(response);
 };
+
+export const updatePlant = async (id, payload) => {
+  const response = await authFetch(API_URL + `plants/${id}/`, {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(payload),
+  });
+  return parseJsonResponse(response);
+};
+
+export const deletePlant = async (id) => {
+  const response = await authFetch(API_URL + `plants/${id}/`, {
+    method: "DELETE",
+  });
+  return response.ok;
+};
+
+export const approvePlant = async (id) => {
+  const response = await authFetch(API_URL + `approval/${id}/approve/`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({}),
+  });
+  return parseJsonResponse(response);
+};
+
+export const rejectPlant = async (id) => {
+  const response = await authFetch(API_URL + `approval/${id}/reject/`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({}),
+  });
+  return parseJsonResponse(response);
+};
+
+export const getPendingApprovals = () => fetch(API_URL + "approval/pending/").then(res => res.json());
+export const getApprovedPlants = () => fetch(API_URL + "approval/approved/").then(res => res.json());
+export const getRejectedPlants = () => fetch(API_URL + "approval/rejected/").then(res => res.json());
+
+export const getDashboardStats = () => fetch(API_URL + "dashboard/stats/").then(res => res.json());
+
+export const getReportsSummary = () => fetch(API_URL + "reports/summary/").then(res => res.json());
+
+export const classifyText = (text) =>
+  fetch(`${API_URL}classify/?text=${encodeURIComponent(text)}`).then(res => res.json());
+
+export const getProfile = () => fetch(API_URL + "profile/me/").then(res => res.json());
+
+export const updateProfile = (payload) =>
+  fetch(API_URL + "profile/update/", {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(payload),
+  }).then(parseJsonResponse);
 
 // NLP
 export const processNLP = (id) => postWithAuth("nlp/process/", { transcription_id: id });

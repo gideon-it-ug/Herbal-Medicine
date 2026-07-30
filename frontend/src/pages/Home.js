@@ -23,10 +23,15 @@ function Home() {
         <h1>🌿 Herbal Medicine Repository</h1>
         <div>
           <Link to='/plants'>All Plants</Link>
+          <Link to='/dashboard'>Dashboard</Link>
+          <Link to='/reports'>Reports</Link>
+          <Link to='/approvals'>Approvals</Link>
+          <Link to='/classify'>Classify</Link>
           <Link to='/chatbot'>Chatbot</Link>
           {isLoggedIn ? (
             <>
               <Link to='/upload'>Upload</Link>
+              <Link to='/profile'>Profile</Link>
               <span onClick={handleLogout} style={{ color: '#FF8F00', cursor: 'pointer', marginLeft: '20px' }}>Logout</span>
             </>
           ) : (
@@ -75,13 +80,28 @@ function Home() {
           </div>
           <div className='card' style={{ textAlign: 'center' }}>
             <div style={{ fontSize: '40px' }}>🎤</div>
-            <h3>Upload Recording</h3><p>Upload audio from traditional healers</p><br />
+            <h3>Upload Recording</h3><p>Upload audio or video from traditional healers</p><br />
             <Link to={isLoggedIn ? '/upload' : '/login'}><button className='btn btn-orange'>Upload</button></Link>
           </div>
           <div className='card' style={{ textAlign: 'center' }}>
             <div style={{ fontSize: '40px' }}>🤖</div>
             <h3>Ask the Chatbot</h3><p>Ask questions about herbal remedies</p><br />
             <Link to='/chatbot'><button className='btn'>Chat Now</button></Link>
+          </div>
+          <div className='card' style={{ textAlign: 'center' }}>
+            <div style={{ fontSize: '40px' }}>📊</div>
+            <h3>Dashboard</h3><p>View system statistics and recent uploads</p><br />
+            <Link to={isLoggedIn ? '/dashboard' : '/login'}><button className='btn'>View Dashboard</button></Link>
+          </div>
+          <div className='card' style={{ textAlign: 'center' }}>
+            <div style={{ fontSize: '40px' }}>📈</div>
+            <h3>Reports</h3><p>View analytics and export data</p><br />
+            <Link to={isLoggedIn ? '/reports' : '/login'}><button className='btn'>View Reports</button></Link>
+          </div>
+          <div className='card' style={{ textAlign: 'center' }}>
+            <div style={{ fontSize: '40px' }}>🔍</div>
+            <h3>AI Classify</h3><p>Auto-classify plants by disease, family, and body system</p><br />
+            <Link to='/classify'><button className='btn'>Classify Now</button></Link>
           </div>
         </div>
       </div>

@@ -8,7 +8,7 @@ services:
     region: oma
     plan: free
     buildCommand: "pip install -r requirements.txt && python herbal_medicine/manage.py collectstatic --noinput && python herbal_medicine/manage.py migrate"
-    startCommand: "gunicorn herbal_medicine.wsgi:application"
+    startCommand: "gunicorn herbal_medicine.wsgi:application --bind 0.0.0.0:$PORT"
     envVars:
       - key: DJANGO_SETTINGS_MODULE
         value: herbal_medicine.settings
@@ -19,15 +19,13 @@ services:
       - key: CORS_ALLOW_ALL_ORIGINS
         value: "True"
       - key: CSRF_TRUSTED_ORIGINS
-        value: "https://herbal-medicine-api.onrender.com"
+        value: "https://herbal-medicine-api.onrender.com,https://herbal-medicine-frontend.onrender.com"
       - key: DB_ENGINE
         value: "django.db.backends.postgresql"
       - key: DB_NAME
         value: "herbal_medicine_db"
       - key: DB_USER
         value: "postgres"
-      - key: DB_HOST
-        value: "aws-us-east-1.render.com"
       - key: DB_PORT
         value: "5432"
       - key: DJANGO_SECRET_KEY

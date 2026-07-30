@@ -6,6 +6,7 @@ import '../App.css';
 function Upload() {
   const [mode, setMode] = useState('audio');
   const [file, setFile] = useState(null);
+  const [fileType, setFileType] = useState('audio');
   const [language, setLanguage] = useState('');
   const [plantName, setPlantName] = useState('');
   const [status, setStatus] = useState('');
@@ -24,6 +25,11 @@ function Upload() {
     side_effects: '',
     cultural_significance: '',
     cultivation_notes: '',
+    plant_family: '',
+    body_system: '',
+    treatment_category: '',
+    harvesting_season: '',
+    contraindications: '',
   });
   const navigate = useNavigate();
 
@@ -31,15 +37,38 @@ function Upload() {
     setManualData(prev => ({ ...prev, [field]: event.target.value }));
   };
 
+  const handleFileChange = (event) => {
+    const selectedFile = event.target.files[0];
+    if (!selectedFile) return;
+    setFile(selectedFile);
+    if (selectedFile.type.startsWith('video/')) {
+      setFileType('video');
+    } else if (selectedFile.type === 'application/pdf' || selectedFile.name.endsWith('.pdf')) {
+      setFileType('document');
+    } else if (selectedFile.type.startsWith('audio/')) {
+      setFileType('audio');
+    } else {
+      setFileType('image');
+    }
+  };
+
   const handleUpload = async () => {
     if (!file) {
-      setStatus('Please select an audio file');
+      setStatus('Please select a file');
       return;
     }
     setLoading(true);
     setStatus('Uploading file...');
     const formData = new FormData();
-    formData.append('audio_file', file);
+    if (fileType === 'audio') {
+      formData.append('audio_file', file);
+    } else if (fileType === 'video') {
+      formData.append('video_file', file);
+    } else if (fileType === 'document') {
+      formData.append('document_file', file);
+    } else {
+      formData.append('image', file);
+    }
     formData.append('language', language);
     try {
       const data = await uploadTranscription(formData);
@@ -111,6 +140,11 @@ function Upload() {
       side_effects: '',
       cultural_significance: '',
       cultivation_notes: '',
+      plant_family: '',
+      body_system: '',
+      treatment_category: '',
+      harvesting_season: '',
+      contraindications: '',
     };
     await handleSavePlant(payload);
   };
@@ -129,7 +163,7 @@ function Upload() {
         <h2 className='page-title'>✍️ Add Plant Information</h2>
         <div style={{ display: 'flex', gap: '12px', marginBottom: '18px' }}>
           <button className='btn' style={{ flex: 1, background: mode === 'audio' ? '#1B5E20' : '#A5D6A7' }} onClick={() => setMode('audio')}>
-            Audio Upload
+            Audio/Video Upload
           </button>
           <button className='btn' style={{ flex: 1, background: mode === 'manual' ? '#1B5E20' : '#A5D6A7' }} onClick={() => setMode('manual')}>
             Manual Entry
@@ -139,7 +173,7 @@ function Upload() {
         {mode === 'audio' && (
           <>
             <div className='card'>
-              <h3 style={{ marginBottom: '16px', color: '#1B5E20' }}>Step 1: Upload Audio File</h3>
+              <h3 style={{ marginBottom: '16px', color: '#1B5E20' }}>Step 1: Upload Media File</h3>
               <div className='form-group'>
                 <label>Plant Name (optional — NLP will try to detect it)</label>
                 <input value={plantName} onChange={e => setPlantName(e.target.value)} placeholder='e.g. Omwetango' />
@@ -156,8 +190,9 @@ function Upload() {
                 </select>
               </div>
               <div className='form-group'>
-                <label>Audio File (mp3, m4a, wav)</label>
-                <input type='file' accept='audio/*' onChange={e => setFile(e.target.files[0])} />
+                <label>File (audio, video, PDF, or image)</label>
+                <input type='file' accept='audio/*,video/*,image/*,.pdf' onChange={handleFileChange} />
+                {file && <p style={{ marginTop: '8px', color: '#666' }}>Selected: {file.name} ({fileType})</p>}
               </div>
               <button className='btn' onClick={handleUpload} disabled={loading}>
                 {loading ? 'Processing...' : '⬆️ Upload File'}
@@ -212,12 +247,12 @@ function Upload() {
               <input value={manualData.scientific_name} onChange={handleManualChange('scientific_name')} placeholder='e.g. Hoslundia opposita' />
             </div>
             <div className='form-group'>
-              <label>Local Language</label>
+              <label>Local Language Name</label>
               <input value={manualData.local_language} onChange={handleManualChange('local_language')} placeholder='e.g. Lugwere' />
             </div>
             <div className='form-group'>
               <label>Geographic Distribution</label>
-              <textarea value={manualData.geographic_distribution} onChange={handleManualChange('geographic_distribution')} placeholder='Where the plant is found'></textarea>
+              <textarea value={manualData.geographic_distribution} onChange={handleManualChange('geographic_distribution')} placeholder='Where the plant is found' />
             </div>
             <div className='form-group'>
               <label>Disease Cured</label>
@@ -236,12 +271,32 @@ function Upload() {
               <textarea value={manualData.side_effects} onChange={handleManualChange('side_effects')} placeholder='Possible side effects (optional)' />
             </div>
             <div className='form-group'>
+              <label>Contraindications</label>
+              <textarea value={manualData.contraindications} onChange={handleManualChange('contraindications')} placeholder='When not to use this remedy' />
+            </div>
+            <div className='form-group'>
               <label>Cultural Significance</label>
               <textarea value={manualData.cultural_significance} onChange={handleManualChange('cultural_significance')} placeholder='Traditional or cultural uses' />
             </div>
             <div className='form-group'>
               <label>Cultivation Notes</label>
               <textarea value={manualData.cultivation_notes} onChange={handleManualChange('cultivation_notes')} placeholder='How the plant is grown or harvested' />
+            </div>
+            <div className='form-group'>
+              <label>Harvesting Season</label>
+              <input value={manualData.harvesting_season} onChange={handleManualChange('harvesting_season')} placeholder='e.g. Rainy season, March-June' />
+            </div>
+            <div className='form-group'>
+              <label>Plant Family</label>
+              <input value={manualData.plant_family} onChange={handleManualChange('plant_family')} placeholder='e.g. Fabaceae, Lamiaceae' />
+            </div>
+            <div className='form-group'>
+              <label>Body System</label>
+              <input value={manualData.body_system} onChange={handleManualChange('body_system')} placeholder='e.g. digestive, respiratory, circulatory' />
+            </div>
+            <div className='form-group'>
+              <label>Treatment Category</label>
+              <input value={manualData.treatment_category} onChange={handleManualChange('treatment_category')} placeholder='e.g. antimalarial, antibacterial, anti-inflammatory' />
             </div>
             <button className='btn btn-orange' onClick={handleSaveManualPlant} disabled={loading}>
               {loading ? 'Saving...' : '💾 Save Plant Information'}
