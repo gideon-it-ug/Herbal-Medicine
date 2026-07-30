@@ -2,11 +2,19 @@
 """Django's command-line utility for administrative tasks."""
 import os
 import sys
+from pathlib import Path
 
 
 def main():
     """Run administrative tasks."""
     os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'herbal_medicine.settings')
+
+    # Ensure the repo root (parent of this file's directory) is on sys.path
+    # so that top-level Django apps (accounts, repository, etc.) are importable
+    # regardless of which working directory manage.py is called from.
+    repo_root = str(Path(__file__).resolve().parent.parent)
+    if repo_root not in sys.path:
+        sys.path.insert(0, repo_root)
     try:
         from django.core.management import execute_from_command_line
     except ImportError as exc:
