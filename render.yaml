@@ -32,6 +32,12 @@ services:
         generateValue: true
       - key: DB_PASSWORD
         generateValue: true
+      - key: CLOUDINARY_CLOUD_NAME
+        value: "your_cloud_name_here"
+      - key: CLOUDINARY_API_KEY
+        value: "your_api_key_here"
+      - key: CLOUDINARY_API_SECRET
+        value: "your_api_secret_here"
 
   # ──────────────────────────────────────────────────────────────
   # Frontend — React SPA (Node.js)
@@ -47,3 +53,5 @@ services:
     envVars:
       - key: REACT_APP_API_ORIGIN
         value: "https://herbal-medicine-api.onrender.com"
+      - key: REACT_APP_CLOUDINARY_CLOUD_NAME
+        value: "your_cloud_name_here"

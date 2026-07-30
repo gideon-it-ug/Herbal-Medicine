@@ -1,5 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import User
+from cloudinary_storage.storage import MediaCloudinaryStorage
+
+storage = MediaCloudinaryStorage()
 
 
 class Plant(models.Model):
@@ -91,10 +94,10 @@ class Plant(models.Model):
     )
 
     # Multimedia
-    image = models.ImageField(upload_to='plants/', blank=True, help_text="Image of the medicinal plant")
-    audio_file = models.FileField(upload_to="audio/", blank=True, help_text="Audio recording of traditional knowledge")
-    video_file = models.FileField(upload_to='videos/', blank=True, help_text="Video documentation of preparation or use")
-    document_file = models.FileField(upload_to='documents/', blank=True, help_text="PDF or document reference")
+    image = models.ImageField(upload_to='plants/', blank=True, help_text="Image of the medicinal plant", storage=storage)
+    audio_file = models.FileField(upload_to="audio/", blank=True, help_text="Audio recording of traditional knowledge", storage=storage)
+    video_file = models.FileField(upload_to='videos/', blank=True, help_text="Video documentation of preparation or use", storage=storage)
+    document_file = models.FileField(upload_to='documents/', blank=True, help_text="PDF or document reference", storage=storage)
 
     # Metadata
     created_at = models.DateTimeField(auto_now_add=True)

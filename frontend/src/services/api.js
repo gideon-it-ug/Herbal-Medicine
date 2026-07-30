@@ -9,6 +9,18 @@ export const buildMediaUrl = (path) => {
   return `${MEDIA_URL}${path.replace(/^media\//, "").replace(/^\//, "")}`;
 };
 
+export const buildCloudinaryUrl = (publicId, options = {}) => {
+  if (!publicId) return "";
+  const cloudName = process.env.REACT_APP_CLOUDINARY_CLOUD_NAME || "";
+  if (!cloudName) return publicId;
+  const transformations = [];
+  if (options.width) transformations.push(`w_${options.width}`);
+  if (options.height) transformations.push(`h_${options.height}`);
+  if (options.crop) transformations.push(`c_${options.crop}`);
+  const transformStr = transformations.length > 0 ? `${transformations.join(",")}/` : "";
+  return `https://res.cloudinary.com/${cloudName}/image/upload/${transformStr}${publicId}`;
+};
+
 const parseJsonResponse = async (response) => {
   const data = await response.json();
   if (!response.ok) {
