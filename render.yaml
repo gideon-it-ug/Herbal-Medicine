@@ -25,7 +25,7 @@ services:
       - key: DB_NAME
         value: "herbal_medicine_db"
       - key: DB_USER
-        value: "postgres"
+        value: "herbal_admin"
       - key: DB_PORT
         value: "5432"
       - key: DJANGO_SECRET_KEY
